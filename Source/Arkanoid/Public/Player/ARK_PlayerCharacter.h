@@ -25,7 +25,7 @@ protected:
 	UInputMappingContext* InputMappingContext;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* MovementInputAction;
-	// Called when the game starts or when spawned
+	
 	virtual void BeginPlay() override;
 
 	void Move(const FInputActionValue& Value);

@@ -7,8 +7,8 @@
 #include "InputActionValue.h"
 #include "ARK_PlayerController.generated.h"
 
-//class UInputMappingContext;
-//class UInputAction;
+class UInputMappingContext;
+class UInputAction;
 
 /**
  * 
@@ -19,11 +19,10 @@ class ARKANOID_API AARK_PlayerController : public APlayerController
 	GENERATED_BODY()
 		
 protected:
-	virtual void SetupInputComponent() override;
-	/*UPROPERTY(EditAnywhere, Category = Input)
+	UPROPERTY(EditAnywhere, Category = Input)
 		UInputMappingContext* InputMappingContext;
 	UPROPERTY(EditAnywhere, Category = Input)
 		UInputAction* MovementInputAction;
-	
-	void Move(const FInputActionValue& Value);*/
+	virtual void SetupInputComponent() override;
+	void Move(const FInputActionValue& Value);
 };
