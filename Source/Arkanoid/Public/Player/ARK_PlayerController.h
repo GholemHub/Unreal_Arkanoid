@@ -20,10 +20,5 @@ class ARKANOID_API AARK_PlayerController : public APlayerController
 		
 protected:
 	virtual void SetupInputComponent() override;
-	/*UPROPERTY(EditAnywhere, Category = Input)
-		UInputMappingContext* InputMappingContext;
-	UPROPERTY(EditAnywhere, Category = Input)
-		UInputAction* MovementInputAction;
-	
-	void Move(const FInputActionValue& Value);*/
+
 };
