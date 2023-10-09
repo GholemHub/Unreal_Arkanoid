@@ -50,4 +50,34 @@ void AARK_Player_Pawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	}//Casting to Enhanced
 }
 
+void AARK_Player_Pawn::Move(const FInputActionValue& Value)
+{
+const FVector2D MovementVector = Value.Get<FVector2D>();
+	//UE_LOG(LogTemp, Warning, TEXT("Location :: %f"), MovementVector.Y);
+	MoveComponent->Move(Value);
+
+	
+
+
+	//FVector LocalOffset(MovementVector.X, 0.0f, 0.0f); // Example offset
+	//AddActorLocalOffset(LocalOffset);
+
+	//if (GetActorLocation().X >= -970.f)
+	//{
+	//	const FVector Forward = GetActorForwardVector();
+	//	AddMovementInput(Forward, MovementVector.Y);
+	//	UE_LOG(LogTemp, Error, TEXT("1"));
+	//}
+	//else if (MovementVector.Y > 0)
+	//{
+	//	UE_LOG(LogTemp, Error, TEXT("2"));
+	//	const FVector Forward = GetActorForwardVector();
+	//	AddMovementInput(Forward, MovementVector.Y);
+	//}
+	//UE_LOG(LogTemp, Error, TEXT("3"));
+	//const FVector Right = GetActorRightVector();
+	//AddMovementInput(Right, MovementVector.X);
+
+}
+
 

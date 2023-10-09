@@ -35,7 +35,5 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void Move(const FInputActionValue& Value);
-	void MoveLeft(APawn* Pawn, float Speed);
-	void MoveRight(APawn* Pawn, float Speed);
 		
 };

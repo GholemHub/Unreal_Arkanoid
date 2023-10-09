@@ -37,7 +37,21 @@ void AARK_PlayerCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	UE_LOG(LogTemp, Error, TEXT("Location :: %f"), MovementVector.Y);
+	
 
+	if (GetActorLocation().X >= -970.f)
+	{
+		const FVector Forward = GetActorForwardVector();
+		AddMovementInput(Forward, MovementVector.Y);
+	}
+	else if (MovementVector.Y > 0)
+	{
+		const FVector Forward = GetActorForwardVector();
+		AddMovementInput(Forward, MovementVector.Y);
+	}
+
+	const FVector Right = GetActorRightVector();
+	AddMovementInput(Right, MovementVector.X);
 
 }
 
