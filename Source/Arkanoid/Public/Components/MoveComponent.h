@@ -25,10 +25,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		UInputMappingContext* InputMappingContext;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		UInputAction* MovementInputAction;
+	UPROPERTY(EditAnywhere, Category = Border)
+		float BorderLimit = 1200;
 
 public:	
 	// Called every frame

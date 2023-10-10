@@ -31,8 +31,20 @@ void UMoveComponent::BeginPlay()
 void UMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	auto Owner = GetOwner();
+	//UE_LOG(LogTemp, Error, TEXT("Owner->GetActorLocation().Y1  :: %f"), Owner->GetActorLocation().Y);
+	if (Owner != nullptr)
+	{
+		if (Owner->GetActorLocation().Y <= -BorderLimit)
+		{
+			Owner->SetActorLocation(FVector(0.f, -BorderLimit, 0.0f));
+		}
+		if (Owner->GetActorLocation().Y >= BorderLimit)
+		{	
+			Owner->SetActorLocation(FVector(0.f, BorderLimit, 0.0f));	
+		}
+	}
 
-	// ...
 }
 
 void UMoveComponent::Move(const FInputActionValue& Value)
