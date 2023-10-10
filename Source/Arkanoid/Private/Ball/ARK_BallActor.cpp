@@ -24,38 +24,50 @@ void AARK_BallActor::BeginPlay()
 	
 	MeshComponent->AddImpulse(GetActorForwardVector() * 1000, NAME_None, true);
 }
-
 void AARK_BallActor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
     Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
-  
+    FVector ImpulseDirection = FVector::ZeroVector;
+    if (Other && Other->IsA(AARK_Player_Pawn::StaticClass()))
+    {
+        // Determine the position of the hit relative to the platform's center
+        FVector PlatformCenter = Other->GetActorLocation();
+        float HitPositionY = HitLocation.Y - PlatformCenter.Y;
+
+        if (HitPositionY > 0)
+        {
+            ImpulseDirection = FVector(0.0f, HitPositionY / 10, 0.0f);
+        }
+        else
+        {
+            ImpulseDirection = FVector(0.0f, HitPositionY / 10, 0.0f);
+        }
+
+        // Apply the impulse without changing velocity
+        FVector NewVelocity = MeshComponent->GetComponentVelocity() + ImpulseDirection * 20;
+
+        // Limit the velocity to MaxSpeed
+        float MaxSpeedSquared = MaxSpeed * MaxSpeed;
+        if (NewVelocity.SizeSquared() > MaxSpeedSquared)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("NewVelocity.SizeSquared()::  %f"), NewVelocity.SizeSquared());
+            NewVelocity = NewVelocity.GetSafeNormal() * MaxSpeed;
+        }
+        else
+        {
+            NewVelocity = NewVelocity.GetSafeNormal() * MaxSpeed;
+            UE_LOG(LogTemp, Warning, TEXT("NewVelocity.SizeSquared()::  %f"), NewVelocity.SizeSquared());
+        }
+
+        MeshComponent->SetPhysicsLinearVelocity(NewVelocity);
+    }
+
     if (Other)
     {
         UE_LOG(LogTemp, Warning, TEXT("Ball collided with a wall! :: %s"), *Other->GetName());
-        
-        auto CurrentVelocity = MeshComponent->GetComponentVelocity();
-        auto Vecolity = CurrentVelocity.Size();
-        if (Vecolity > MaxSpeed)
-        {
-            // Calculate the new movement direction based on the HitNormal
-            //FVector CurrentDirection = GetActorForwardVector();
-            //FVector NewDirection = CurrentDirection - 2.0f * FVector::DotProduct(CurrentDirection, HitNormal) * HitNormal;
-
-            //// Set the new movement direction for your actor
-            //SetActorRotation(NewDirection.Rotation());
-
-            //// You can also add an impulse to simulate a change in direction
-            //float ImpulseStrength = 1000.0f; // Adjust as needed
-            //MyComp->AddImpulse(NewDirection * ImpulseStrength);
-
-
-            ///////////////
-
-            FVector ScaledVelocity = CurrentVelocity.GetSafeNormal() * MaxSpeed;
-            MeshComponent->SetPhysicsLinearVelocity(ScaledVelocity);
-        }
     }
 }
+
 
 // Called every frame
 void AARK_BallActor::Tick(float DeltaTime)
