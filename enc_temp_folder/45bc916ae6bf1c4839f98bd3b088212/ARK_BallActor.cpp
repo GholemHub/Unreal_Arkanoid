@@ -45,7 +45,7 @@ void AARK_BallActor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrim
         }
 
         // Apply the impulse without changing velocity
-        FVector NewVelocity = MeshComponent->GetComponentVelocity() + ImpulseDirection * 30;
+        FVector NewVelocity = MeshComponent->GetComponentVelocity() + ImpulseDirection * 20;
 
         NewVelocity = NewVelocity.GetSafeNormal() * MaxSpeed;
 
