@@ -16,16 +16,12 @@ class ARKANOID_API AARK_GameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	virtual void BeginPlay() override;
+	AARK_GameModeBase();
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	TSubclassOf<AARK_EnemyPawn> EnemyClassToSpawn;
 
 	UPROPERTY(VisibleAnywhere, Category = "Spawning")
 	TArray<AARK_EnemyPawn* > SpawnedActors;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-		int32 EnemyCount = 2;
-
 
 };
