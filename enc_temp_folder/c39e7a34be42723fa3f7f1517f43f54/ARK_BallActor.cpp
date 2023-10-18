@@ -18,14 +18,6 @@ AARK_BallActor::AARK_BallActor()
     MeshComponent->SetNotifyRigidBodyCollision(true);
 }
 
-void AARK_BallActor::RespawnActor()
-{
-    FVector Location = FVector(300.f, 0.f, 0.f);
-    FActorSpawnParameters SpawnParams;
-    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-    GetWorld()->SpawnActor<AARK_BallActor>(AARK_BallActor::StaticClass(), Location, FRotator::ZeroRotator, SpawnParams);
-}
-
 // Called when the game starts or when spawned
 void AARK_BallActor::BeginPlay()
 {

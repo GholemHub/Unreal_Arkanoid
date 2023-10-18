@@ -17,14 +17,12 @@ public:
 	// Sets default values for this actor's properties
 	AARK_BallActor();
 
-	void RespawnActor();
-	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* MeshComponent;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MaxSpeed)
 		float MaxSpeed = 500;
