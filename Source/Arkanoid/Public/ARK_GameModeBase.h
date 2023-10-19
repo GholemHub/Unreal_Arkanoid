@@ -17,6 +17,23 @@ class ARKANOID_API AARK_GameModeBase : public AGameModeBase
 
 public:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere)
+		int EmenyCountFloat = 0;
+	//////////
+	UPROPERTY(EditAnywhere) 
+		TSubclassOf<UUserWidget> widgetBlackLines;
+	//UUserWidget* widgetBlackLinesInstance;
+	////////////
+	UFUNCTION()
+	float GetSizeSpawnedEnemy() const {
+		if (SpawnedActors.IsEmpty()) return 0.0;
+
+		return SpawnedActors.Num();
+	};
+
+	void RemoveEnemy(AActor* Actor);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	TSubclassOf<AARK_EnemyPawn> EnemyClassToSpawn;

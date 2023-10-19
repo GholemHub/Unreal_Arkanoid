@@ -63,6 +63,7 @@ void AARK_GameModeBase::RemoveEnemy(AActor* Actor)
 
             // Update the EmenyCountFloat
             EmenyCountFloat = SpawnedActors.Num();
+            UE_LOG(LogTemp, Warning, TEXT("EmenyCount3 ___ %i"), EmenyCountFloat);
 
             // After updating the count, you can call the UI update function if needed
             UGameStatisticsDataWidget* StatisticsWidget; // Declare a variable to store the reference

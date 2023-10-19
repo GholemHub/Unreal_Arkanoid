@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/TriggerBox.h"
-#include "ARK_TriggerBox.generated.h"
+#include "GameFramework/HUD.h"
+#include "ARK_BaseHUD.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ARKANOID_API AARK_TriggerBox : public ATriggerBox
+class ARKANOID_API AARK_BaseHUD : public AHUD
 {
 	GENERATED_BODY()
 	
