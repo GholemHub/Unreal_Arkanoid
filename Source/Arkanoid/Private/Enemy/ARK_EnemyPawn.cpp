@@ -40,7 +40,7 @@ void AARK_EnemyPawn::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrim
 		auto CurrentGameMode = Cast<AARK_GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (CurrentGameMode)
 		{
-			CurrentGameMode->RemoveEnemy(MyComp->GetOwner());//here i dont have a real count of arr
+			CurrentGameMode->RemoveEnemy(MyComp->GetOwner());
 		}
 	}
 }

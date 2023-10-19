@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "UI/GameStatisticsDataWidget.h"
 #include "Components/TextBlock.h"
 
@@ -9,13 +8,10 @@
 
 int UGameStatisticsDataWidget::GetCountOfBlocks() const 
 {
-	auto CurrentGameMode = Cast<AARK_GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	
-		auto Count = CurrentGameMode->EmenyCountFloat;
 		return ReturnValue();
 }
 
-int UGameStatisticsDataWidget::ReturnValue()const
+int UGameStatisticsDataWidget::ReturnValue() const
 {
 	auto CurrentGameMode = Cast<AARK_GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	return CurrentGameMode->EmenyCountFloat;

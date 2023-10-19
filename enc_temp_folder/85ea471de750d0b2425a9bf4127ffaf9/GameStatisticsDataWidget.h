@@ -6,6 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "GameStatisticsDataWidget.generated.h"
 
+/**
+ * 
+ */
 class UTextBlock;
 
 UCLASS()

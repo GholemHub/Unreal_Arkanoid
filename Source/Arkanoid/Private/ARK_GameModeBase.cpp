@@ -28,47 +28,23 @@ void AARK_GameModeBase::BeginPlay()
         LocationOfNewEnemy.X += (i + 120);  
     }
     EmenyCountFloat = SpawnedActors.Num();
-    UE_LOG(LogTemp, Warning, TEXT("111111::%d"), EmenyCountFloat)//here i dont have a real count of arr
 }
-
-//void AARK_GameModeBase::RemoveEnemy(AActor* Actor)
-//{
-//    if (SpawnedActors.Num() > 0)
-//    {
-//        AARK_EnemyPawn* EnemyToRemove = Cast<AARK_EnemyPawn>(Actor);
-//        
-//        SpawnedActors.Remove(EnemyToRemove);
-//        EnemyToRemove->Destroy();
-//        EmenyCountFloat = SpawnedActors.Num();
-//        UE_LOG(LogTemp, Warning, TEXT("EmenyCount3 ___ %i"), EmenyCountFloat);
-//
-//       
-//    }
-//}
 
 void AARK_GameModeBase::RemoveEnemy(AActor* Actor)
 {
     if (SpawnedActors.Contains(Actor))
     {
-        // Cast Actor to AARK_EnemyPawn if it's not null
         AARK_EnemyPawn* EnemyToRemove = Cast<AARK_EnemyPawn>(Actor);
 
         if (EnemyToRemove)
         {
-            // Destroy the actor
             EnemyToRemove->Destroy();
-
-            // Remove it from the SpawnedActors array
             SpawnedActors.Remove(EnemyToRemove);
 
-            // Update the EmenyCountFloat
             EmenyCountFloat = SpawnedActors.Num();
 
-            // After updating the count, you can call the UI update function if needed
-            UGameStatisticsDataWidget* StatisticsWidget; // Declare a variable to store the reference
-
-            // Inside a function where you want to create and store the reference
-            StatisticsWidget = CreateWidget<UGameStatisticsDataWidget>(GetWorld(), widgetBlackLines); // Replace YourWidgetClass with the actual class of your widget
+            UGameStatisticsDataWidget* StatisticsWidget;
+            StatisticsWidget = CreateWidget<UGameStatisticsDataWidget>(GetWorld(), UserWidget);
 
             if (StatisticsWidget)
             {

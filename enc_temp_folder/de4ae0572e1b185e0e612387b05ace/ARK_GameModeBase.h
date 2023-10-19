@@ -7,6 +7,9 @@
 #include "Enemy/ARK_EnemyPawn.h"
 #include "ARK_GameModeBase.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
 class ARKANOID_API AARK_GameModeBase : public AGameModeBase
 {
@@ -17,12 +20,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		int EmenyCountFloat = 0;
-
+	//////////
 	UPROPERTY(EditAnywhere) 
-		TSubclassOf<UUserWidget> UserWidget;
-
-	void RemoveEnemy(AActor* Actor);
-
+		TSubclassOf<UUserWidget> widgetBlackLines;
+	//UUserWidget* widgetBlackLinesInstance;
+	////////////
 	UFUNCTION()
 	float GetSizeSpawnedEnemy() const {
 		if (SpawnedActors.IsEmpty()) return 0.0;
@@ -30,7 +32,7 @@ public:
 		return SpawnedActors.Num();
 	};
 
-	
+	void RemoveEnemy(AActor* Actor);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
