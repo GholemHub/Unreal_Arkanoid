@@ -29,9 +29,6 @@ public:
 
 		return SpawnedActors.Num();
 	};
-
-	
-
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	TSubclassOf<AARK_EnemyPawn> EnemyClassToSpawn;

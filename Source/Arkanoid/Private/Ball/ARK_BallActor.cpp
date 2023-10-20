@@ -1,10 +1,10 @@
-
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "Ball/ARK_BallActor.h"
 #include "Components/StaticMeshComponent.h"
 
 #include "Enemy/ARK_EnemyPawn.h"
 #include "Player/ARK_Player_Pawn.h"
-#include "Ball/ARK_BallActor.h"
+
 #include "Math/UnrealMathUtility.h"
 
 // Sets default values

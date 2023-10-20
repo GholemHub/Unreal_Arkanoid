@@ -12,24 +12,21 @@
 // Sets default values for this component's properties
 UMoveComponent::UMoveComponent()
 {
+	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-}
-
-void UMoveComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UMoveComponent, InputMappingContext);
-	DOREPLIFETIME(UMoveComponent, MovementInputAction);
 }
 
 // Called when the game starts
 void UMoveComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (GetOwner()->HasAuthority())
+	{
 		GetOwner()->SetReplicates(true);
 		GetOwner()->SetReplicateMovement(true);
-	
+	}
 }
 
 // Called every frame
@@ -63,46 +60,25 @@ void UMoveComponent::Server_Move_Implementation(const FInputActionValue& Value)
 	auto Owner = GetOwner();
 	if (Owner != nullptr)
 	{
+		//UE_LOG(LogTemp, Error, TEXT("Location4 :: %f :: %f"), MovementVector.Y, MovementVector.X);
+		// Check if the owning actor is a pawn
 		if (APawn* OwningPawn = Cast<APawn>(Owner))
 		{
+			//UE_LOG(LogTemp, Error, TEXT("Location3 :: %f :: %f"), MovementVector.Y, MovementVector.X);
 			if (MovementVector.X <= 0.0)
 			{
-				//UE_LOG(LogTemp, Error, TEXT("Location1 :: %f :: %f"), MovementVector.Y, MovementVector.X);
+				UE_LOG(LogTemp, Error, TEXT("Location1 :: %f :: %f"), MovementVector.Y, MovementVector.X);
+				
+					//E_LOG(LogTemp, Error, TEXT("Location111 :: %f :: %f"), MovementVector.Y, MovementVector.X);
 					MoveLeft(OwningPawn, MovementVector.X);
+				
 			}
 			else {
-				//UE_LOG(LogTemp, Error, TEXT("Location2 :: %f :: %f"), MovementVector.Y, MovementVector.X);
-				MoveRight(OwningPawn, MovementVector.X);
+				
+					UE_LOG(LogTemp, Error, TEXT("Location2 :: %f :: %f"), MovementVector.Y, MovementVector.X);
+					MoveRight(OwningPawn, MovementVector.X);
+				
 			}		
-		}
-	}
-}
-
-bool UMoveComponent::Client_Move_Validate(const FInputActionValue& Value)
-{
-	return true;
-}
-
-void UMoveComponent::Client_Move_Implementation(const FInputActionValue& Value)
-{
-
-	
-	const FVector2D MovementVector = Value.Get<FVector2D>();
-
-	auto Owner = GetOwner();
-	if (Owner != nullptr)
-	{
-		if (APawn* OwningPawn = Cast<APawn>(Owner))
-		{
-			if (MovementVector.X <= 0.0)
-			{
-				//UE_LOG(LogTemp, Error, TEXT("Location1 :: %f :: %f"), MovementVector.Y, MovementVector.X)
-				MoveLeft(OwningPawn, MovementVector.X);
-			}
-			else {
-				//UE_LOG(LogTemp, Error, TEXT("Location2 :: %f :: %f"), MovementVector.Y, MovementVector.X);
-				MoveRight(OwningPawn, MovementVector.X);
-			}
 		}
 	}
 }
@@ -110,15 +86,7 @@ void UMoveComponent::Client_Move_Implementation(const FInputActionValue& Value)
 
 void UMoveComponent::Move(const FInputActionValue& Value)
 {
-	if (GetOwner()->HasAuthority())
-	{
-		Server_Move(Value);
-	}
-	else
-	{
-		Client_Move(Value);
-	}
-	
+	Server_Move(Value);
 }
 
 void UMoveComponent::MoveLeft(APawn* Pawn, float Speed)
@@ -143,3 +111,29 @@ void UMoveComponent::MoveRight(APawn* Pawn, float Speed)
 		Pawn->AddActorLocalOffset(LocalOffset);
 	}
 }
+
+
+
+//void UMoveComponent::ServerUpdateMovement(const FInputActionValue& Value)
+//{
+//	const FVector2D MovementVector = Value.Get<FVector2D>();
+//	auto Owner = GetOwner();
+//	if (Owner != nullptr)
+//	{
+//		// Check if the owning actor is a pawn
+//		if (APawn* OwningPawn = Cast<APawn>(Owner))
+//		{
+//
+//			if (MovementVector.X <= 0.0)
+//			{
+//				if (OwningPawn->HasAuthority())  // Check if this is the server
+//				{
+//					MoveLeft(OwningPawn, MovementVector.X);
+//				}
+//			}
+//			else {
+//				MoveRight(OwningPawn, MovementVector.X);
+//			}
+//		}
+//	}
+//}
