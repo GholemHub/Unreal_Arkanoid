@@ -18,33 +18,41 @@ class ARKANOID_API UMoveComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UMoveComponent();
-
-	
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
-//UFUNCTION(Server, Reliable)
-//		void ServerUpdateMovement(const FInputActionValue& Value);
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Replicated)
 		UInputMappingContext* InputMappingContext;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Replicated)
 		UInputAction* MovementInputAction;
 	UPROPERTY(EditAnywhere, Category = Border)
 		float BorderLimit = 1200;
 
+	
+
+	virtual void GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const override;
 public:	
+
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(Server, Reliable, WithValidation)
+	/*UFUNCTION(Server, Reliable, WithValidation)
 	void Server_Move(const FInputActionValue& Value);
 
-	bool Server_Move_Validate(const FInputActionValue& Value);
-	void Server_Move_Implementation(const FInputActionValue& Value);
+	UFUNCTION(Client, Reliable, WithValidation)
+	void Client_Move(const FInputActionValue& Value);*/
 
 	void Move(const FInputActionValue& Value);
-	void MoveLeft(APawn* Pawn, float Speed);
-	void MoveRight(APawn* Pawn, float Speed);
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void MoveL(const FInputActionValue& Value);
+
+	UFUNCTION(Client, Reliable, WithValidation)
+		void Client_MoveL(const FInputActionValue& Value);
+
+	
+
+	/*void MoveLeft(APawn* Pawn, float Speed);
+	void MoveRight(APawn* Pawn, float Speed);*/
 };

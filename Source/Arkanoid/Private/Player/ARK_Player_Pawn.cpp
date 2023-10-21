@@ -11,11 +11,10 @@ AARK_Player_Pawn::AARK_Player_Pawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	if (HasAuthority())
-	{
+	
 		SetReplicates(true);
 		SetReplicateMovement(true);
-	}
+	
 	
 	MoveComponent = CreateDefaultSubobject<UMoveComponent>(TEXT("MoveComponent"));
 }

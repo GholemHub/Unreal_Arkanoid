@@ -29,6 +29,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Border)
 		float BorderLimit = 1200;
 
+	
 
 	virtual void GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const override;
 public:	
@@ -36,13 +37,26 @@ public:
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	UFUNCTION(Server, Reliable, WithValidation)
+	/*UFUNCTION(Server, Reliable, WithValidation)
 	void Server_Move(const FInputActionValue& Value);
 
 	UFUNCTION(Client, Reliable, WithValidation)
-		void Client_Move(const FInputActionValue& Value);
+	void Client_Move(const FInputActionValue& Value);*/
 
 	void Move(const FInputActionValue& Value);
-	void MoveLeft(APawn* Pawn, float Speed);
-	void MoveRight(APawn* Pawn, float Speed);
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void MoveL(const FInputActionValue& Value);
+
+	UFUNCTION(Client, Reliable, WithValidation)
+		void Client_MoveL(const FInputActionValue& Value);
+
+	UPROPERTY(Replicated)
+		FVector ReplicatedLocation;
+
+	UFUNCTION(Server, Reliable, WithValidation)
+		void Server_UpdateLocation(FVector NewLocation);
+
+	/*void MoveLeft(APawn* Pawn, float Speed);
+	void MoveRight(APawn* Pawn, float Speed);*/
 };
