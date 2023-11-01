@@ -87,38 +87,80 @@ void UMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 void UMoveComponent::Move(const FInputActionValue& Value)
 {
-	if (GetOwner()->HasAuthority())
+
+	const FVector2D MovementVector = Value.Get<FVector2D>();
+	UE_LOG(LogTemp, Error, TEXT("Value :: %f :: %f"), MovementVector.Y, MovementVector.X)
+		if (GetNetMode() == NM_DedicatedServer) {
+			return;
+		}
+	if (GetOwnerRole() == ROLE_AutonomousProxy)
 	{
-		MoveL(Value);  // Server performs movement
-		const FVector2D MovementVector = Value.Get<FVector2D>();
-		UE_LOG(LogTemp, Error, TEXT("Server:: %f"), MovementVector.X)
-			Server_UpdateLocation_Implementation(GetOwner()->GetActorLocation());
+		UpdateServerLocation(MovementVector.X, MovementVector.Y);
 	}
-	else
+	else {
+		UpdateServerLocation(MovementVector.X, MovementVector.Y);
+	}
+
+	
+
+	//if (GetOwner()->HasAuthority())
+	//{
+	//	//MoveL(Value);  // Server performs movement
+	//	const FVector2D MovementVector = Value.Get<FVector2D>();
+	//	UE_LOG(LogTemp, Error, TEXT("Server:: %f"), MovementVector.X)
+
+
+
+	//		//Server_UpdateLocation_Implementation(GetOwner()->GetActorLocation());
+	//}
+	//else
+	//{
+	//	//Client_MoveL(Value);  // Client performs movement
+	//	const FVector2D MovementVector = Value.Get<FVector2D>();
+	//	UE_LOG(LogTemp, Error, TEXT("Client2:: %f"), MovementVector.X)
+	//		//Server_UpdateLocation_Implementation(GetOwner()->GetActorLocation());
+	//}
+}
+
+void UMoveComponent::UpdateServerLocation_Implementation(float X, float Y)
+{
+	
+		auto Owner = GetOwner();
+	if (Owner != nullptr)
 	{
-		Client_MoveL(Value);  // Client performs movement
-		const FVector2D MovementVector = Value.Get<FVector2D>();
-		UE_LOG(LogTemp, Error, TEXT("Client2:: %f"), MovementVector.X)
-			Server_UpdateLocation_Implementation(GetOwner()->GetActorLocation());
+		if (APawn* OwningPawn = Cast<APawn>(Owner))
+		{
+			if (X <= 0.0)
+			{
+				if (GetOwner()->HasAuthority()) {
+
+				
+				//UE_LOG(LogTemp, Error, TEXT("Location Server :: %f :: %f"), MovementVector.Y, MovementVector.X)
+				FVector LocalOffset(0.f, X * 100, 0.0f);
+				Owner->AddActorLocalOffset(LocalOffset);
+				}
+				// Update the replicated location on the server
+				//Server_UpdateLocation_Implementation(Owner->GetActorLocation());
+				}
+			else 
+				{
+					//UE_LOG(LogTemp, Error, TEXT("Location Client :: %f :: %f"), MovementVector.Y, MovementVector.X)
+						FVector LocalOffset(0.f, X * 100, 0.0f);
+
+					ReplicatedLocation = Owner->GetActorLocation();
+
+					Owner->AddActorLocalOffset(LocalOffset);
+					//Server_UpdateLocation_Implementation(Owner->GetActorLocation());
+			}
+		}
 	}
 }
 
-bool UMoveComponent::MoveL_Validate(const FInputActionValue& Value)
-{
-	return true;
-}
 
-bool UMoveComponent::Client_MoveL_Validate(const FInputActionValue& Value)
-{
-	return true;
-}
 
 void UMoveComponent::Client_MoveL_Implementation(const FInputActionValue& Value)
 {
-	// Perform the same movement as in MoveL
-	const FVector2D MovementVector = Value.Get<FVector2D>();
-	UE_LOG(LogTemp, Error, TEXT("Client111:: %f"), MovementVector.X)
-	MoveL_Implementation(MovementVector);
+	
 }
 
 void UMoveComponent::Server_UpdateLocation_Implementation(FVector NewLocation)
@@ -126,11 +168,6 @@ void UMoveComponent::Server_UpdateLocation_Implementation(FVector NewLocation)
 	UE_LOG(LogTemp, Error, TEXT("NewLocation1 %f :: %f"), NewLocation.Y, NewLocation.X)
 	ReplicatedLocation = NewLocation;
 	UE_LOG(LogTemp, Error, TEXT("ReplicatedLocation1 %f :: %f"), ReplicatedLocation.Y, ReplicatedLocation.X)
-}
-
-bool UMoveComponent::Server_UpdateLocation_Validate(FVector NewLocation)
-{
-	return true;
 }
 
 void UMoveComponent::MoveL_Implementation(const FInputActionValue& Value)

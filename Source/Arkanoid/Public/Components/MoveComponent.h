@@ -54,6 +54,9 @@ public:
 	UPROPERTY(Replicated)
 		FVector ReplicatedLocation;
 
+	UFUNCTION(Server, Unreliable)
+		void UpdateServerLocation(float X, float Y);
+
 	UFUNCTION(Server, Reliable, WithValidation)
 		void Server_UpdateLocation(FVector NewLocation);
 

@@ -25,7 +25,7 @@ public:
 
 	UFUNCTION()
 	float GetSizeSpawnedEnemy() const {
-		if (SpawnedActors.IsEmpty()) return 0.0;
+		//if (SpawnedActors.IsEmpty()) return 0.0;
 
 		return SpawnedActors.Num();
 	};
